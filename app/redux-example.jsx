@@ -2,9 +2,15 @@ var redux = require('redux');
 
 console.log('Starting redux example');
 
-// Pure function
-// Always returns same result given same input
-// No side effects (doesn't require any variables from outside or update anything from outside)
-function add (a, b) {
-	return a + b;
-}
+//pure function in redux: reducer
+
+var reducer = (state = {name: 'Anonymous'}, action) => {
+	//state = state || {name: 'Anonymous'};
+	
+	return state;	
+};
+
+var store = redux.createStore(reducer);
+
+var currentState = store.getState();
+console.log('currentState', currentState);
