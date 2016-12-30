@@ -2,16 +2,9 @@ var redux = require('redux');
 
 console.log('Starting redux example');
 
-var stateDefault = {
-	name: 'Anonymous',
-	hobbies: [],
-	movies: []
-};
 
-var nextHobbyId = 1;
-var nextMovieId = 1;
-
-//state isn't an object, it's just a string because we're just managing the name.
+// Name reducer and action generators
+// ----------------------------------
 var nameReducer = (state = 'Anonymous', action) => {
 	switch(action.type) {
 		case 'CHANGE_NAME':
@@ -21,6 +14,46 @@ var nameReducer = (state = 'Anonymous', action) => {
 	}
 };
 
+// Action generator abstracts the logic of the action.
+var changeName = (name) => {
+	return {
+		type: 'CHANGE_NAME',
+		name //same as name: name
+	};
+};
+
+var addHobby = (hobby) => {
+	return {
+		type: 'ADD_HOBBY',
+		hobby
+	};
+};
+
+var removeHobby = (id) => {
+	return {
+		type: 'REMOVE_HOBBY',
+		id
+	};
+};
+
+var addMovie = (title, genre) => {
+	return {
+		type: 'ADD_MOVIE',
+		title,
+		genre
+	};
+};
+
+var removeMovie = (id) => {
+	return {
+		type: 'REMOVE_MOVIE',
+		id
+	};
+};
+
+// Hobbies reducer and action generators
+// ----------------------------------
+var nextHobbyId = 1;
 var hobbiesReducer = (state = [], action) => {
 	switch(action.type) {
 		case 'ADD_HOBBY':
@@ -38,6 +71,9 @@ var hobbiesReducer = (state = [], action) => {
 	}
 };
 
+// Movies reducer and action generators
+// ----------------------------------
+var nextMovieId = 1;
 var moviesReducer = (state = [], action) => {
 	switch(action.type) {
 		case 'ADD_MOVIE':
@@ -79,47 +115,14 @@ var unsubscribe = store.subscribe(() => {
 
 var currentState = store.getState();
 
-store.dispatch({
-	type: 'CHANGE_NAME',
-	name: 'Coy'	
-});
-
-store.dispatch({
-	type: 'ADD_HOBBY',
-	hobby: 'Running'
-});
-store.dispatch({
-	type: 'ADD_HOBBY',
-	hobby: 'Writing'
-});
-store.dispatch({
-	type: 'REMOVE_HOBBY',
-	id: 2
-});
-
-//unsubscribe();
-store.dispatch({
-	type: 'ADD_MOVIE',
-	title: 'Remember the Titans',
-	genre: 'Drama'
-});
-store.dispatch({
-	type: 'ADD_MOVIE',
-	title: 'Empire Strikes Back',
-	genre: 'Sci-fi'
-});
-store.dispatch({
-	type: 'ADD_MOVIE',
-	title: 'Spaceballs',
-	genre: 'Comedy'
-});
-store.dispatch({
-	type: 'REMOVE_MOVIE',
-	id: 1
-})
-
+store.dispatch(changeName('Coy'));
+store.dispatch(addHobby('Running'));
+store.dispatch(addHobby('Writing'));
+store.dispatch(removeHobby(2));
+store.dispatch(addMovie('Remember the Titans', 'Drama'));
+store.dispatch(addMovie('Empire Strikes Back', 'Sci-fi'));
+store.dispatch(addMovie('Spaceballs', 'Comedy'));
+store.dispatch(removeMovie(1));
+// unsubscribe();
 // subscribe callback won't run if unsubscribe is uncommented
-store.dispatch({
-	type: 'CHANGE_NAME',
-	name: 'Miranda'
-});
+store.dispatch(changeName('Miranda'));
